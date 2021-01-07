@@ -13,8 +13,12 @@ import EditUser from "../body/profile/EditUser";
 
 import { useSelector } from "react-redux";
 
+import { About, Contact, Features, Faqs, Home, Privacy, Terms } from "./static";
+
+import { Account, Dashboard, Hotlines, Maps } from "./views";
+
 const Body = () => {
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector(state => state.auth);
   const { isLogged, isAdmin } = auth;
   return (
     <section>
@@ -53,6 +57,19 @@ const Body = () => {
           component={isAdmin ? EditUser : NotFound}
           exact
         />
+
+        <Route exact path="/" component={Home} />
+        <Route path="/about-us" component={About} />
+        <Route path="/features" component={Features} />
+        <Route path="/contact" component={Contact} />
+        <Route path="/faqs" component={Faqs} />
+        <Route path="/privacy-policy" component={Privacy} />
+        <Route path="/terms-of-services" component={Terms} />
+
+        <Route path="/account" component={Account} />
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/maps" component={Maps} />
+        <Route path="/hotlines" component={Hotlines} />
       </Switch>
     </section>
   );

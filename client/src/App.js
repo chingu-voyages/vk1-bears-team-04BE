@@ -9,12 +9,13 @@ import {
 
 import Header from "./components/header/Header";
 import Body from "./components/body/Body";
+import Footer from "./components/body/static/Footer";
 import axios from "axios";
 
 function App() {
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.token);
-  const auth = useSelector((state) => state.auth);
+  const token = useSelector(state => state.token);
+  const auth = useSelector(state => state.auth);
 
   useEffect(() => {
     const firstLogin = localStorage.getItem("firstLogin");
@@ -31,7 +32,7 @@ function App() {
     if (token) {
       const getUser = () => {
         dispatch(dispatchLogin());
-        return fetchUser(token).then((res) => {
+        return fetchUser(token).then(res => {
           dispatch(dispatchGetUser(res));
         });
       };
@@ -44,6 +45,7 @@ function App() {
       <div className="App">
         <Header />
         <Body />
+        <Footer />
       </div>
     </Router>
   );
