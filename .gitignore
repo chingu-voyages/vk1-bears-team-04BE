@@ -1,0 +1,34 @@
+# dependencies
+client/node_modules
+client/.pnp
+client/.pnp.js
+
+# testing
+clientclient/coverage
+
+# production
+/build
+
+# misc
+client/.DS_Store
+client/.env
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+client/.eslintcache
+
+
+.prettierrc
+
+server/node_modules
+server/.env
+
+# Tailwind Output
+client/src/tailwind.output.css
+client/.env
