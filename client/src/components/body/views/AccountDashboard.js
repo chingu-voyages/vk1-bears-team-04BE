@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import swal from "sweetalert";
 import { isEmpty, isStringOnly } from "../../utils/validation/Validation";
 import {
@@ -7,13 +7,12 @@ import {
 } from "../../utils/notification/Notification";
 import Geocode from "react-geocode";
 
-Geocode.setApiKey("AIzaSyBH8YyVQB_6cemCiCI1GofYzOM1G6D5J5E")
+Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API)
 
 const AccountDashboard = () => {
   const [data, setData] = useState({
     name: "",
     address: "",
-    city: "",
     source: "",
     remark: "",
     err: "",
@@ -22,7 +21,7 @@ const AccountDashboard = () => {
     lng: "",
   });
 
-  const { name, address, city, source, remark, err, success, lat, lng } = data;
+  const { name, address, source, remark, err, success, lat, lng } = data;
   const handleChangeInput = e => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -37,12 +36,6 @@ const AccountDashboard = () => {
         success: "",
       });
 
-    if (!isStringOnly(city) || !isStringOnly(remark))
-      return setData({
-        ...data,
-        err: "Numbers, symbols and other special characters are not allowed.",
-        success: "",
-      });
 
       try {
         await Geocode.fromAddress(data.address).then(
@@ -55,13 +48,13 @@ const AccountDashboard = () => {
         console.log(data)
         
         const res = await fetch(
-          "https://v1.nocodeapi.com/urescueme/google_sheets/WUbvvWpfUvlOUcqU?tabId=Sheet1",
+          process.env.REACT_APP_NOCODE_API,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify([[name, address, city, source, remark, data.lat, data.lng]]),
+            body: JSON.stringify([[name, address, source, remark, data.lat, data.lng]]),
           }
         );
 
@@ -70,7 +63,6 @@ const AccountDashboard = () => {
           ...data,
           name: "",
           address: "",
-          city: "",
           source: "",
           remark: "",
           lat: "",
@@ -117,21 +109,6 @@ const AccountDashboard = () => {
               name="address"
               value={address}
               placeholder="Ex. 1121 Pedro Gil Street, Ermita"
-              id=""
-              autoComplete="off"
-              onChange={handleChangeInput}
-            />
-          </div>
-        </h2>
-
-        <h2 className="text-left items-center font-semibold">
-          City/Municipality/Province:
-          <div className="sm:w-4/5 grid self-center pt-4">
-            <input
-              type="text"
-              name="city"
-              value={city}
-              placeholder="Ex. Manila"
               id=""
               autoComplete="off"
               onChange={handleChangeInput}
