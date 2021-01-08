@@ -10,6 +10,9 @@ import {
 import { dispatchLogin } from "../../../redux/actions/authAction";
 import { useDispatch } from "react-redux";
 
+import { GoogleLogin } from "react-google-login";
+import FacebookLogin from "react-facebook-login";
+
 const initialState = {
   email: "",
   password: "",
@@ -24,11 +27,11 @@ const Login = () => {
 
   const { email, password, err, success } = user;
 
-  const handleChangeInput = e => {
+  const handleChangeInput = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value, err: "", success: "" });
   };
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post("/user/login", { email, password });
@@ -53,6 +56,42 @@ const Login = () => {
           err: err.response.data.msg,
           success: "",
         });
+    }
+  };
+
+  const responseGoogle = async (response) => {
+    try {
+      const res = await axios.post("/user/google_login", {
+        tokenId: response.tokenId,
+      });
+
+      setUser({ ...user, error: "", success: res.data.msg });
+      localStorage.setItem("firstLogin", true);
+
+      dispatch(dispatchLogin());
+      history.push("/");
+    } catch (err) {
+      err.response.data.msg &&
+        setUser({ ...user, err: err.response.data.msg, success: "" });
+    }
+  };
+
+  const responseFacebook = async (response) => {
+    try {
+      const { accessToken, userID } = response;
+      const res = await axios.post("/user/facebook_login", {
+        accessToken,
+        userID,
+      });
+
+      setUser({ ...user, error: "", success: res.data.msg });
+      localStorage.setItem("firstLogin", true);
+
+      dispatch(dispatchLogin());
+      history.push("/");
+    } catch (err) {
+      err.response.data.msg &&
+        setUser({ ...user, err: err.response.data.msg, success: "" });
     }
   };
 
@@ -95,12 +134,30 @@ const Login = () => {
                 </Link>
               </p>
               <p className="text-center font-bold uppercase mt-6">or</p>
-              <button className="btn w-full mt-0 subtle-shadow gap-2">
+              {/* <button className="btn w-full mt-0 subtle-shadow gap-2">
                 Sign up with Google
-              </button>
-              <button className="btn w-full subtle-shadow text-white bg-blue-900">
+              </button> */}
+              <div>
+                <GoogleLogin
+                  clientId={process.env.REACT_APP_GOOGLE_ID}
+                  buttonText="Login with Google"
+                  onSuccess={responseGoogle}
+                  cookiePolicy={"single_host_origin"}
+                />
+              </div>
+
+              <div>
+                <FacebookLogin
+                  appId={process.env.REACT_APP_FACEBOOK_ID}
+                  autoLoad={false}
+                  fields="name,email,picture"
+                  callback={responseFacebook}
+                />
+              </div>
+
+              {/* <button className="btn w-full subtle-shadow text-white bg-blue-900">
                 Sign up with Facebook
-              </button>
+              </button> */}
               <p className="text-center mt-4">
                 Don't have an account yet?&nbsp;
                 <Link to="/register" className="font-bold underline">
