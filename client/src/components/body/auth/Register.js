@@ -35,11 +35,11 @@ const Register = () => {
     success,
   } = user;
 
-  const handleChangeInput = (e) => {
+  const handleChangeInput = e => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value, err: "", success: "" });
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     if (isEmpty(firstName) || isEmpty(lastName) || isEmpty(password)) {
@@ -96,79 +96,103 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      {err && showErrMsg(err)}
-      {success && showSuccessMsg(success)}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="firstName">First Name</label>
+    <div className="flex flex-col">
+      <div className="container max-w-2xl mx-auto flex-1 flex flex-col items-center justify-center px-2 my-12">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white px-20 py-8 rounded-3xl subtle-shadow text-black w-full my-15"
+        >
+          <h1 className="mb-8 text-3xl text-center font-bold">
+            Create Account
+          </h1>
+          {err && showErrMsg(err)}
+          {success && showSuccessMsg(success)}
           <input
             type="text"
-            placeholder="Enter First Name"
-            id="firstName"
-            value={firstName}
             name="firstName"
+            value={firstName}
+            placeholder="Your First Name"
+            id="registerFname"
+            autoComplete="off"
             onChange={handleChangeInput}
           />
-        </div>
 
-        <div>
-          <label htmlFor="lastName">Last Name</label>
           <input
             type="text"
-            placeholder="Enter Last Name"
-            id="lastName"
-            value={lastName}
             name="lastName"
+            value={lastName}
+            placeholder="Your Last Name"
+            id="registerLname"
+            autoComplete="off"
             onChange={handleChangeInput}
           />
-        </div>
 
-        <div>
-          <label htmlFor="email">Email</label>
           <input
             type="text"
-            placeholder="Enter Email Address"
-            id="email"
-            value={email}
             name="email"
+            value={email}
+            placeholder="Your Email"
+            id="registerEmail"
+            autoComplete="off"
             onChange={handleChangeInput}
           />
-        </div>
 
-        <div>
-          <label htmlFor="password">Password</label>
           <input
             type="password"
-            placeholder="Enter Password"
-            id="password"
-            value={password}
             name="password"
+            placeholder="Password"
+            value={password}
+            id="registerPass"
             onChange={handleChangeInput}
           />
-        </div>
 
-        <div>
-          <label htmlFor="cf_password">Confirm Password</label>
           <input
             type="password"
-            placeholder="Confirm Password"
-            id="cf_password"
-            value={cf_password}
             name="cf_password"
+            value={cf_password}
             onChange={handleChangeInput}
+            placeholder="Repeat your Password"
+            id="registerRPass"
           />
-        </div>
 
-        <div>
-          <button type="submit">Register</button>
-        </div>
-      </form>
+          <input
+            type="checkbox"
+            id="terms"
+            name="terms"
+            value="Terms and Agreement"
+            required
+          />
+          <label className="pl-2" htmlFor="terms">
+            I agree to U Rescue Me's{" "}
+            <a className="underline" href="/terms-of-services">
+              Terms of Services.
+            </a>
+          </label>
+          <button
+            type="submit"
+            className="btn btn-primary subtle-shadow w-full py-3 my-6 font-medium tracking-widest text-white focus:outline-none hover:bg-gray-900 hover:shadow-none"
+          >
+            {" "}
+            Sign Up
+          </button>
 
-      <p>
-        Already an account? <Link to="/login">Login</Link>
-      </p>
+          <p className="text-center font-bold uppercase mt-6">or</p>
+
+          <button className="btn w-full subtle-shadow">
+            Sign up with Google
+          </button>
+          <button className="btn w-full subtle-shadow text-white bg-blue-900">
+            Sign up with Facebook
+          </button>
+
+          <p className="text-center mt-4">
+            Already have an account?&nbsp;
+            <Link to="/login" className="font-bold underline">
+              Login Here
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

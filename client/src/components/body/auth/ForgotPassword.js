@@ -17,7 +17,7 @@ const ForgotPassword = () => {
 
   const { email, err, success } = data;
 
-  const handleChangeInput = (e) => {
+  const handleChangeInput = e => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value, err: "", success: "" });
   };
@@ -36,23 +36,35 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div>
-      <h2>Forgot Password?</h2>
-      <div>
-        {err && showErrMsg(err)}
-        {success && showSuccessMsg(success)}
-
-        <label htmlFor="email">Enter your Email Address</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          value={email}
-          onChange={handleChangeInput}
-        />
-        <button onClick={forgotPassword}>Verify Email</button>
+    <>
+      {" "}
+      <div className="flex flex-col my-32">
+        <div className="container bg-white max-w-2xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
+          <div className="px-20 py-8 rounded-3xl subtle-shadow text-black w-full my-15 text-center">
+            <form>
+              {err && showErrMsg(err)}
+              {success && showSuccessMsg(success)}
+              <h1 className="mb-8 text-2xl font-bold normal-case text-center">
+                Enter your email address :
+              </h1>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={email}
+                onChange={handleChangeInput}
+              />
+              <button
+                onClick={forgotPassword}
+                className="btn btn-primary subtle-shadow w-full py-3 my-6 font-medium tracking-widest text-white text-1xl focus:outline-none hover:bg-gray-900 hover:shadow-none"
+              >
+                Verify Email
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

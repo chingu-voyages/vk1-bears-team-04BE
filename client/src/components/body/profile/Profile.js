@@ -22,10 +22,10 @@ const initialState = {
 };
 
 const Profile = () => {
-  const auth = useSelector((state) => state.auth);
-  const token = useSelector((state) => state.token);
+  const auth = useSelector(state => state.auth);
+  const token = useSelector(state => state.token);
 
-  const users = useSelector((state) => state.users);
+  const users = useSelector(state => state.users);
 
   const { user, isAdmin } = auth;
   const [data, setData] = useState(initialState);
@@ -38,13 +38,13 @@ const Profile = () => {
 
   useEffect(() => {
     if (isAdmin) {
-      fetchAllUsers(token).then((res) => {
+      fetchAllUsers(token).then(res => {
         dispatch(dispatchGetAllUsers(res));
       });
     }
   }, [token, isAdmin, dispatch, callback]);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value, err: "", success: "" });
   };
@@ -99,7 +99,7 @@ const Profile = () => {
     if (password) updatePassword();
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async id => {
     try {
       if (user._id !== id) {
         if (window.confirm("Are you sure you want to delete this account?")) {
@@ -117,17 +117,15 @@ const Profile = () => {
   };
 
   return (
-    <div>
-      <div>
-        {err && showErrMsg(err)}
-        {success && showSuccessMsg(success)}
-        {loading && <h3>Loading.....</h3>}
-      </div>
-      <div>
-        <h2>{isAdmin ? "Admin Profile" : "User Profile"}</h2>
-
-        <div>
-          <label htmlFor="firstName">First Name</label>
+    <>
+      <div className="flex flex-col">
+        <div className="container max-w-2xl mx-auto flex-1 flex flex-col items-center justify-center px-2 my-12">
+          <h1 className="mb-8 text-3xl text-center font-bold">
+            {isAdmin ? "Admin Profile" : "User Profile"}
+          </h1>
+          {err && showErrMsg(err)}
+          {success && showSuccessMsg(success)}
+          {loading && <h3>Loading.....</h3>}
           <input
             type="text"
             name="firstName"
@@ -136,10 +134,7 @@ const Profile = () => {
             placeholder="Your First Name"
             onChange={handleChange}
           />
-        </div>
 
-        <div>
-          <label htmlFor="lastName">Last Name</label>
           <input
             type="text"
             name="lastName"
@@ -148,10 +143,7 @@ const Profile = () => {
             placeholder="Your Last Name"
             onChange={handleChange}
           />
-        </div>
 
-        <div>
-          <label htmlFor="email">Email</label>
           <input
             type="email"
             name="email"
@@ -160,10 +152,7 @@ const Profile = () => {
             placeholder="Your Email"
             disabled
           />
-        </div>
 
-        <div>
-          <label htmlFor="password">New Password</label>
           <input
             type="password"
             name="password"
@@ -172,10 +161,7 @@ const Profile = () => {
             value={password}
             onChange={handleChange}
           />
-        </div>
 
-        <div>
-          <label htmlFor="cf_password">Confirm New Password</label>
           <input
             type="password"
             name="cf_password"
@@ -184,59 +170,116 @@ const Profile = () => {
             value={cf_password}
             onChange={handleChange}
           />
-        </div>
 
-        <div>
           <em style={{ color: "crimson" }}>
             * If you update your password here, you will not be able to login
             quickly using google and facebook.
           </em>
-        </div>
-        <button disabled={loading} onClick={handleUpdate}>
-          Update
-        </button>
-      </div>
 
-      <div className="col-right">
-        <h2>{isAdmin ? "Users" : "Welcome User"}</h2>
-
-        <div style={{ overflowX: "auto" }}>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Admin</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user._id}>
-                  <td>{user._id}</td>
-                  <td>{user.firstName}</td>
-                  <td>{user.lastName}</td>
-                  <td>{user.email}</td>
-                  <td>{user.role === 1 ? <h5>Admin</h5> : <h5>User</h5>}</td>
-                  <td>
-                    <Link to={`/edit_user/${user._id}`}>
-                      <h5>Edit</h5>
-                    </Link>
-                  </td>
-                  <td>
-                    <button onClick={() => handleDelete(user._id)}>
-                      "Remove"
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <button
+            disabled={loading}
+            className="btn btn-primary subtle-shadow w-full py-3 my-6 font-medium tracking-widest text-white focus:outline-none hover:bg-gray-900 hover:shadow-none"
+            onClick={handleUpdate}
+          >
+            Update
+          </button>
         </div>
       </div>
-    </div>
+      <div className="flex flex-col">
+        <div className="container  mx-auto flex-1 flex flex-col   items-center justify-center px-2 my-2 text-left ">
+          <h1 className="mb-8 text-3xl text-center font-bold">
+            {isAdmin ? "Users" : "Welcome User"}
+          </h1>
+        </div>
+      </div>
+      <div class="flex flex-col items-center mb-10">
+        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="py-2 align-middle inline-block sm:px-6 lg:px-8">
+            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 container">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      ID
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      First Name
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Last Name
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Email Address
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Email Address
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  {users.map(user => (
+                    <tr key={user._id} className="mx-5">
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <div class="text-sm text-gray-900">{user._id}</div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">
+                          {user.firstName}
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">{user.lastName}</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">{user.email}</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">
+                          {" "}
+                          {user.role === 1 ? <h5>Admin</h5> : <h5>User</h5>}
+                        </div>
+                      </td>
+
+                      <td class="px-6 py-4 flex flex-row whitespace-nowrap text-right text-sm font-medium">
+                        <Link to={`/edit_user/${user._id}`} className="mx-5">
+                          <h5>Edit</h5>
+                        </Link>
+                        <button onClick={() => handleDelete(user._id)}>
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -20,7 +20,7 @@ const ResetPassword = () => {
 
   const { password, cf_password, err, success } = data;
 
-  const handleChangeInput = (e) => {
+  const handleChangeInput = e => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value, err: "", success: "" });
   };
@@ -56,33 +56,44 @@ const ResetPassword = () => {
   };
 
   return (
-    <div>
-      <h2>Reset Password</h2>
-      <div>
-        {err && showErrMsg(err)}
-        {success && showSuccessMsg(success)}
-
-        <label htmlFor="password">Enter your Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          value={password}
-          onChange={handleChangeInput}
-        />
-
-        <label htmlFor="cf_password">Confirm Password</label>
-        <input
-          type="password"
-          name="cf_password"
-          id="cf_password"
-          value={cf_password}
-          onChange={handleChangeInput}
-        />
-
-        <button onClick={handleResetPassword}>Reset Password</button>
+    <>
+      <div className="flex flex-col my-32">
+        <div className="container bg-white max-w-2xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
+          <div className="px-20 py-8 rounded-3xl subtle-shadow text-black w-full my-15 text-center">
+            <form>
+              <h1 className="mb-8 text-2xl font-bold normal-case text-center">
+                Reset your Password
+              </h1>
+              {err && showErrMsg(err)}
+              {success && showSuccessMsg(success)}
+              <input
+                type="password"
+                name="password"
+                id="password"
+                value={password}
+                placeholder="New Password"
+                onChange={handleChangeInput}
+              />
+              <input
+                type="password"
+                name="cf_password"
+                id="cf_password"
+                value={cf_password}
+                placeholder="Confirm New Password"
+                onChange={handleChangeInput}
+              />
+              <button
+                onClick={handleResetPassword}
+                className="btn btn-primary subtle-shadow w-full py-3 my-6 font-medium tracking-widest text-white text-1xl focus:outline-none hover:bg-gray-900 hover:shadow-none"
+              >
+                Reset Password
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
+      ;
+    </>
   );
 };
 
