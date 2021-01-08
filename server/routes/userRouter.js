@@ -34,4 +34,10 @@ router.patch(
 
 router.delete("/delete/:id", auth, authAdmin, userController.deleteUser);
 
+/*------Social Media Login------*/
+
+router.post("/google_login", userController.googleLogin);
+
+router.post("/facebook_login", userController.facebookLogin);
+
 module.exports = router;
