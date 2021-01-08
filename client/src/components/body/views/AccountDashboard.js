@@ -5,6 +5,9 @@ import {
   showErrMsg,
   showSuccessMsg,
 } from "../../utils/notification/Notification";
+import Geocode from "react-geocode";
+
+Geocode.setApiKey("AIzaSyBH8YyVQB_6cemCiCI1GofYzOM1G6D5J5E")
 
 const AccountDashboard = () => {
   const [data, setData] = useState({
@@ -15,9 +18,11 @@ const AccountDashboard = () => {
     remark: "",
     err: "",
     success: "",
+    lat: "",
+    lng: "",
   });
 
-  const { name, address, city, source, remark, err, success } = data;
+  const { name, address, city, source, remark, err, success, lat, lng } = data;
   const handleChangeInput = e => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -38,20 +43,25 @@ const AccountDashboard = () => {
         err: "Numbers, symbols and other special characters are not allowed.",
         success: "",
       });
-
+    
     try {
-      const res = await fetch(
-        "https://v1.nocodeapi.com/urescueme/google_sheets/WUbvvWpfUvlOUcqU?tabId=Sheet1",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify([[name, address, city, source, remark]]),
-        }
-      );
+      const coordinates = await Geocode.fromAddress(data.address);
+      const { lat, lng } = coordinates.results[0].geometry.location;
+      console.log(lat, lng)
+      setData({...data, lat: lat, lng: lng});
+      console.log(data)
+      // const res = await fetch(
+      //   "https://v1.nocodeapi.com/urescueme/google_sheets/WUbvvWpfUvlOUcqU?tabId=Sheet1",
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify([[name, address, city, source, remark, lat, lng]]),
+      //   }
+      // );
 
-      await res.json();
+      // await res.json();
       setData({
         ...data,
         name: "",
@@ -59,6 +69,8 @@ const AccountDashboard = () => {
         city: "",
         source: "",
         remark: "",
+        lat: "",
+        lng: "",
       });
       return swal({
         title: "Success !",
