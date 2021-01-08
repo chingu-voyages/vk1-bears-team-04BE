@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
@@ -32,6 +33,27 @@ const MapsContent = () => {
     },
     [handleViewportChange]
   );
+  
+  const [json, setjson] = useState();
+
+  useEffect(() => {
+        const fetchdata = async () => {
+          try {
+              const response = await fetch(process.env.REACT_APP_NOCODE_API, {
+                  method: "get",
+                  headers: {
+                      "Content-Type": "application/json"
+                  }
+              });
+              const res = await response.json();
+              setjson(res)
+              console.log(res)
+          } catch (error) {
+              console.error("Error:", error);
+          }
+      }
+      fetchdata();
+  }, []);
 
   const [json, setjson] = useState();
 
@@ -56,21 +78,22 @@ const MapsContent = () => {
 
   return (
     <>
-      <div className="py-4 h-screen col-span-3 overflow-auto">
-        <div className="h-screen p-4">
-          <ReactMapGL
-            ref={mapRef}
-            {...viewport}
-            width="100%"
-            height="100%"
-            mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-            mapStyle="mapbox://styles/urescueme/ckiox3t7j52o917qpxlgtsjou"
-            onViewportChange={viewport => {
-              SetViewport(viewport);
-            }}
-          >
-            {json &&
-              json.data.map(data => (
+
+        <div className="py-4 h-screen col-span-3 overflow-auto">
+          <div className="h-screen p-4">
+            <ReactMapGL 
+              ref={mapRef}
+              {...viewport} 
+              width="100%"
+              height="100%"
+              mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+              mapStyle="mapbox://styles/urescueme/ckiox3t7j52o917qpxlgtsjou" 
+              onViewportChange={viewport => {
+                  SetViewport(viewport);
+              }}>
+                
+                
+              {json && json.data.map(data => (
                 <Marker
                   key={data.row_id}
                   latitude={parseFloat(data.Lat)}
@@ -79,6 +102,12 @@ const MapsContent = () => {
                   offsetTop={-5}
                 >
                   <FaMapMarkerAlt className="text-2xl text-red-900" />
+                </Marker>
+              ))}
+
+                  offsetLeft={-10} offsetTop={-5}
+                >
+                <FaMapMarkerAlt className="text-2xl text-red-900"/> 
                 </Marker>
               ))}
 
