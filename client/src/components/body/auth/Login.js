@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import swal from "sweetalert";
 import {
   showErrMsg,
   showSuccessMsg,
@@ -8,6 +9,11 @@ import {
 
 import { dispatchLogin } from "../../../redux/actions/authAction";
 import { useDispatch } from "react-redux";
+
+import { GoogleLogin } from "react-google-login";
+import FacebookLogin from "react-facebook-login";
+
+import "../../../tailwind.css";
 
 const initialState = {
   email: "",
@@ -39,6 +45,12 @@ const Login = () => {
       localStorage.setItem("firstLogin", true);
       dispatch(dispatchLogin());
       history.push("/");
+      return swal({
+        title: "Welcome !",
+        icon: "success",
+        type: "success",
+        text: "You have successfully login!",
+      });
     } catch (err) {
       err.response.data.msg &&
         setUser({
@@ -46,6 +58,42 @@ const Login = () => {
           err: err.response.data.msg,
           success: "",
         });
+    }
+  };
+
+  const responseGoogle = async response => {
+    try {
+      const res = await axios.post("/user/google_login", {
+        tokenId: response.tokenId,
+      });
+
+      setUser({ ...user, error: "", success: res.data.msg });
+      localStorage.setItem("firstLogin", true);
+
+      dispatch(dispatchLogin());
+      history.push("/");
+    } catch (err) {
+      err.response.data.msg &&
+        setUser({ ...user, err: err.response.data.msg, success: "" });
+    }
+  };
+
+  const responseFacebook = async response => {
+    try {
+      const { accessToken, userID } = response;
+      const res = await axios.post("/user/facebook_login", {
+        accessToken,
+        userID,
+      });
+
+      setUser({ ...user, error: "", success: res.data.msg });
+      localStorage.setItem("firstLogin", true);
+
+      dispatch(dispatchLogin());
+      history.push("/");
+    } catch (err) {
+      err.response.data.msg &&
+        setUser({ ...user, err: err.response.data.msg, success: "" });
     }
   };
 
@@ -88,12 +136,40 @@ const Login = () => {
                 </Link>
               </p>
               <p className="text-center font-bold uppercase mt-6">or</p>
-              <button className="btn w-full mt-0 subtle-shadow gap-2">
+              {/* <button className="btn w-full mt-0 subtle-shadow gap-2">
                 Sign up with Google
-              </button>
-              <button className="btn w-full subtle-shadow text-white bg-blue-900">
+              </button> */}
+              <div>
+                <GoogleLogin
+                  clientId={process.env.REACT_APP_GOOGLE_ID}
+                  render={renderProps => (
+                    <button
+                      onClick={renderProps.onClick}
+                      className="btn bg-gray-200 subtle-shadow border-black w-full py-3 my-6 font-medium tracking-widest text-black "
+                    >
+                      Login with Google{" "}
+                    </button>
+                  )}
+                  buttonText="Login with Google"
+                  onSuccess={responseGoogle}
+                  cookiePolicy={"single_host_origin"}
+                />
+              </div>
+
+              <div>
+                <FacebookLogin
+                  appId={process.env.REACT_APP_FACEBOOK_ID}
+                  autoLoad={false}
+                  cssClass="btnFacebook"
+                  textButton="&nbsp;&nbsp;Sign In with Facebook"
+                  fields="name,email,picture"
+                  callback={responseFacebook}
+                />
+              </div>
+
+              {/* <button className="btn w-full subtle-shadow text-white bg-blue-900">
                 Sign up with Facebook
-              </button>
+              </button> */}
               <p className="text-center mt-4">
                 Don't have an account yet?&nbsp;
                 <Link to="/register" className="font-bold underline">

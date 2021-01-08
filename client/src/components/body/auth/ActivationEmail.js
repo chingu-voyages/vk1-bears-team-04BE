@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+
 import {
   showErrMsg,
   showSuccessMsg,
@@ -28,9 +29,13 @@ const ActivationEmail = () => {
   }, [activation_token]);
 
   return (
-    <div>
-      {err && showErrMsg(err)}
-      {success && showSuccessMsg(success)}
+    <div className="flex flex-col">
+      <div className="bg-white h-screen px-20 py-8 rounded-3xl subtle-shadow text-black w-full my-15">
+        <h1 className="mb-8 text-2xl text-center font-bold capitalize">
+          {err && showErrMsg(err)}
+          {success && showSuccessMsg(success)}
+        </h1>
+      </div>
     </div>
   );
 };

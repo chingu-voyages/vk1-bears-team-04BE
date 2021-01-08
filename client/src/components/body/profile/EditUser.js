@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import swal from "sweetalert";
 import { HiArrowLeft } from "react-icons/hi";
 import {
   showSuccessMsg,
@@ -13,8 +14,8 @@ function EditUser() {
   const history = useHistory();
   const [editUser, setEditUser] = useState([]);
 
-  const users = useSelector(state => state.users);
-  const token = useSelector(state => state.token);
+  const users = useSelector((state) => state.users);
+  const token = useSelector((state) => state.token);
 
   const [checkAdmin, setCheckAdmin] = useState(false);
   const [err, setErr] = useState(false);
@@ -23,7 +24,7 @@ function EditUser() {
 
   useEffect(() => {
     if (users.length !== 0) {
-      users.forEach(user => {
+      users.forEach((user) => {
         if (user._id === id) {
           setEditUser(user);
           setCheckAdmin(user.role === 1 ? true : false);
@@ -63,61 +64,6 @@ function EditUser() {
   };
 
   return (
-    // <div>
-    //   <div>
-    //     <button onClick={() => history.goBack()}>Go Back</button>
-    //   </div>
-
-    //   <div className="col-left">
-    //     <h2>Edit User</h2>
-
-    //     <div>
-    //       <label htmlFor="firstName">First Name</label>
-    //       <input
-    //         type="text"
-    //         name="firstName"
-    //         defaultValue={editUser.firstName}
-    //         disabled
-    //       />
-    //     </div>
-
-    //     <div>
-    //       <label htmlFor="lastName">Name</label>
-    //       <input
-    //         type="text"
-    //         name="lastName"
-    //         defaultValue={editUser.lastName}
-    //         disabled
-    //       />
-    //     </div>
-
-    //     <div>
-    //       <label htmlFor="email">Email</label>
-    //       <input
-    //         type="email"
-    //         name="email"
-    //         defaultValue={editUser.email}
-    //         disabled
-    //       />
-    //     </div>
-
-    //     <div className="form-group">
-    //       <input
-    //         type="checkbox"
-    //         id="isAdmin"
-    //         checked={checkAdmin}
-    //         onChange={handleCheck}
-    //       />
-    //       <label htmlFor="isAdmin">isAdmin</label>
-    //     </div>
-
-    //     <button onClick={handleUpdate}>Update</button>
-
-    //     {err && showErrMsg(err)}
-    //     {success && showSuccessMsg(success)}
-    //   </div>
-    // </div>
-
     <div className="flex flex-col my-32">
       <div className="container bg-white max-w-2xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
         <div className="px-20 py-8 rounded-3xl subtle-shadow text-black w-full my-15 ">
@@ -134,7 +80,7 @@ function EditUser() {
             defaultValue={editUser.firstName}
             disabled
           />
-          <label htmlFor="lastName">Name</label>
+          <label htmlFor="lastName">Last Name</label>
           <input
             type="text"
             name="lastName"
