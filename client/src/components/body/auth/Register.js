@@ -175,22 +175,6 @@ const Register = () => {
             {" "}
             Sign Up
           </button>
-
-          <p className="text-center font-bold uppercase mt-6">or</p>
-
-          <button className="btn w-full subtle-shadow">
-            Sign up with Google
-          </button>
-          <button className="btn w-full subtle-shadow text-white bg-blue-900">
-            Sign up with Facebook
-          </button>
-
-          <p className="text-center mt-4">
-            Already have an account?&nbsp;
-            <Link to="/login" className="font-bold underline">
-              Login Here
-            </Link>
-          </p>
         </form>
       </div>
     </div>

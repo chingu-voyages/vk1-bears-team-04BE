@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import swal from "sweetalert";
 import {
   showErrMsg,
   showSuccessMsg,
@@ -39,6 +40,12 @@ const Login = () => {
       localStorage.setItem("firstLogin", true);
       dispatch(dispatchLogin());
       history.push("/");
+      return swal({
+        title: "Welcome !",
+        icon: "success",
+        type: "success",
+        text: "You have successfully login!",
+      });
     } catch (err) {
       err.response.data.msg &&
         setUser({

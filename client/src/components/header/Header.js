@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { Transition } from "@tailwindui/react";
+import { HiChevronDown, HiClipboardCheck } from "react-icons/hi";
+import "alpinejs";
 
 import { ReactComponent as Logo } from "../../images/logo.svg";
 const Header = ({ users }) => {
@@ -83,14 +85,41 @@ const Header = ({ users }) => {
               </div>
             </div>
             <div className="flex-1 flex items-center justify-end ">
+              {/* <div className="flex-shrink-0 flex items-center"></div> */}
               <div className="flex-shrink-0 flex items-center"></div>
+              <div className="hidden sm:block sm:ml-6">
+                <div className="flex space-x-4">
+                  <Link
+                    to="/about-us"
+                    className="px-3 py-2 rounded-md text-base font-medium text-white hover:underline"
+                  >
+                    About Us
+                  </Link>
+                  <Link
+                    to="/features"
+                    className="px-3 py-2 rounded-md text-base font-medium text-white hover:underline"
+                  >
+                    Features
+                  </Link>
+                  <Link
+                    to="/contact"
+                    className="px-3 py-2 rounded-md text-base font-medium text-white hover:underline"
+                  >
+                    Contact
+                  </Link>
+                </div>
+              </div>
 
-              <div ref={container} className="relative">
+              <div
+                ref={container}
+                className="relative px-3 py-2"
+                x-data="open = false"
+              >
                 <button
-                  className="menu focus:outline-none focus:shadow-solid  rounded-md  text-base font-medium text-white"
+                  className="menu focus:outline-none focus:shadow-solid   inline-flex justify-center items-end rounded-md  text-base font-medium text-white"
                   onClick={() => setShow(!show)}
                 >
-                  Hello, {user.firstName}!
+                  Hello {user.firstName} <HiChevronDown />
                 </button>
 
                 <Transition
@@ -102,7 +131,7 @@ const Header = ({ users }) => {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <div className="origin-top-right absolute right-0 w-36 py-2 mt-1 nav-bg rounded shadow-md">
+                  <div className="origin-top-right absolute  z-10 right-0 w-36 py-2 mt-1 nav-bg rounded shadow-md ">
                     <Link
                       to="/dashboard"
                       className="px-3 rounded-md  text-base font-medium text-white"

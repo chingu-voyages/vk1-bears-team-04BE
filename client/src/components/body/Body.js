@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import ActivationEmail from "./auth/ActivationEmail";
-import NotFound from "../utils/NotFound/NotFound";
+import NotFound from "../utils/NotFound/PageNotFound";
 
 import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 
 import { About, Contact, Features, Faqs, Home, Privacy, Terms } from "./static";
 
-import { Account, Dashboard, Hotlines, Maps } from "./views";
+import { Dashboard, Hotlines, Maps } from "./views";
 
 const Body = () => {
   const auth = useSelector(state => state.auth);
@@ -66,10 +66,9 @@ const Body = () => {
         <Route path="/privacy-policy" component={Privacy} />
         <Route path="/terms-of-services" component={Terms} />
 
-        <Route path="/account" component={Account} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/maps" component={Maps} />
-        <Route path="/hotlines" component={Hotlines} />
+        <Route path="/dashboard" component={isLogged ? Dashboard : NotFound} />
+        <Route path="/maps" component={isLogged ? Maps : NotFound} />
+        <Route path="/hotlines" component={isLogged ? Hotlines : NotFound} />
       </Switch>
     </section>
   );
