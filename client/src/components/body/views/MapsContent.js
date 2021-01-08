@@ -99,11 +99,13 @@ const MapsContent = () => {
                     latitude={parseFloat(data.Lat)}
                     longitude={parseFloat(data.Lng)}
                     closeButton={true}
-                    closeOnClick={false}
+                    closeOnClick={true}
                     dynamicPosition={true}
                     className="z-10"
                     onClose={() => setShowPopup(false)}
                     anchor="top"
+                    offsetLeft={8}
+                    offsetTop={30}
                   >
                     <div className="popup">
                       <p>
