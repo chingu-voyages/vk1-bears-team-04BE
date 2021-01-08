@@ -40,7 +40,7 @@ const MapsContent = () => {
   useEffect(() => {
         const fetchdata = async () => {
           try {
-              const response = await fetch("https://v1.nocodeapi.com/urescueme/google_sheets/WUbvvWpfUvlOUcqU?tabId=Sheet1", {
+              const response = await fetch(process.env.REACT_APP_NOCODE_API, {
                   method: "get",
                   headers: {
                       "Content-Type": "application/json"
@@ -72,16 +72,16 @@ const MapsContent = () => {
               }}>
                 
                 
-                {json && json.data.map(data => (
-          <Marker
-            key={data.row_id}
-            latitude={parseFloat(data.Lat)}
-            longitude={parseFloat(data.Lng)}
-            offsetLeft={-10} offsetTop={-5}
-          >
-           <FaMapMarkerAlt className="text-2xl text-red-900"/> 
-          </Marker>
-        ))}
+              {json && json.data.map(data => (
+                <Marker
+                  key={data.row_id}
+                  latitude={parseFloat(data.Lat)}
+                  longitude={parseFloat(data.Lng)}
+                  offsetLeft={-10} offsetTop={-5}
+                >
+                <FaMapMarkerAlt className="text-2xl text-red-900"/> 
+                </Marker>
+              ))}
               
 
               <Geocoder
