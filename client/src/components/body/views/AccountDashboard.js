@@ -7,7 +7,7 @@ import {
 } from "../../utils/notification/Notification";
 import Geocode from "react-geocode";
 
-Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API)
+Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API);
 
 const AccountDashboard = () => {
   const [data, setData] = useState({
@@ -36,48 +36,44 @@ const AccountDashboard = () => {
         success: "",
       });
 
+    try {
+      await Geocode.fromAddress(data.address).then(coordinates => {
+        const { lat, lng } = coordinates.results[0].geometry.location;
+        data.lat = lat.toString();
+        data.lng = lng.toString();
+      });
+      console.log(data);
 
-      try {
-        await Geocode.fromAddress(data.address).then(
-          coordinates => {
-            const { lat, lng } = coordinates.results[0].geometry.location;
-            data.lat = lat.toString();
-            data.lng = lng.toString();
-          }
-        )
-        console.log(data)
-        
-        const res = await fetch(
-          process.env.REACT_APP_NOCODE_API,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify([[name, address, source, remark, data.lat, data.lng]]),
-          }
-        );
+      const res = await fetch(process.env.REACT_APP_NOCODE_API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify([
+          [name, address, source, remark, data.lat, data.lng],
+        ]),
+      });
 
-        await res.json();
-        setData({
-          ...data,
-          name: "",
-          address: "",
-          source: "",
-          remark: "",
-          lat: "",
-          lng: "",
-        });
-        return swal({
-          title: "Success !",
-          icon: "success",
-          type: "success",
-          text: "You have successfully submit your form!",
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    };
+      await res.json();
+      setData({
+        ...data,
+        name: "",
+        address: "",
+        source: "",
+        remark: "",
+        lat: "",
+        lng: "",
+      });
+      return swal({
+        title: "Success !",
+        icon: "success",
+        type: "success",
+        text: "You have successfully submit your form!",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div>
       <form
@@ -161,15 +157,3 @@ const AccountDashboard = () => {
 };
 
 export default AccountDashboard;
-© 2021 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
