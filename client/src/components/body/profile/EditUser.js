@@ -13,8 +13,8 @@ function EditUser() {
   const history = useHistory();
   const [editUser, setEditUser] = useState([]);
 
-  const users = useSelector(state => state.users);
-  const token = useSelector(state => state.token);
+  const users = useSelector((state) => state.users);
+  const token = useSelector((state) => state.token);
 
   const [checkAdmin, setCheckAdmin] = useState(false);
   const [err, setErr] = useState(false);
@@ -23,7 +23,7 @@ function EditUser() {
 
   useEffect(() => {
     if (users.length !== 0) {
-      users.forEach(user => {
+      users.forEach((user) => {
         if (user._id === id) {
           setEditUser(user);
           setCheckAdmin(user.role === 1 ? true : false);
@@ -134,7 +134,7 @@ function EditUser() {
             defaultValue={editUser.firstName}
             disabled
           />
-          <label htmlFor="lastName">Name</label>
+          <label htmlFor="lastName">Last Name</label>
           <input
             type="text"
             name="lastName"
