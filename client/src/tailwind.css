@@ -41,4 +41,13 @@ textarea {
     border-radius: 9999px;
     font-weight: 500;
     
+
+
+}
+
+.popup {
+  width: 10vw;
+ font-size:12px;
+
+ z-index: 9999;
 }
