@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import swal from "sweetalert";
-import { isEmpty, isStringOnly } from "../../utils/validation/Validation";
+import { isEmpty } from "../../utils/validation/Validation";
 import {
   showErrMsg,
   showSuccessMsg,
 } from "../../utils/notification/Notification";
+import Geocode from "react-geocode";
+
+Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API)
 
 const AccountDashboard = () => {
   const [data, setData] = useState({
     name: "",
     address: "",
-    city: "",
     source: "",
     remark: "",
     err: "",
     success: "",
+    lat: "",
+    lng: "",
   });
 
-  const { name, address, city, source, remark, err, success } = data;
+  const { name, address, source, remark, err, success, lat, lng } = data;
   const handleChangeInput = e => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -32,44 +36,48 @@ const AccountDashboard = () => {
         success: "",
       });
 
-    if (!isStringOnly(city) || !isStringOnly(remark))
-      return setData({
-        ...data,
-        err: "Numbers, symbols and other special characters are not allowed.",
-        success: "",
-      });
 
-    try {
-      const res = await fetch(
-        "https://v1.nocodeapi.com/urescueme/google_sheets/WUbvvWpfUvlOUcqU?tabId=Sheet1",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify([[name, address, city, source, remark]]),
-        }
-      );
+      try {
+        await Geocode.fromAddress(data.address).then(
+          coordinates => {
+            const { lat, lng } = coordinates.results[0].geometry.location;
+            data.lat = lat.toString();
+            data.lng = lng.toString();
+          }
+        )
+        console.log(data)
+        
+        const res = await fetch(
+          process.env.REACT_APP_NOCODE_API,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify([[name, address, source, remark, data.lat, data.lng]]),
+          }
+        );
 
-      await res.json();
-      setData({
-        ...data,
-        name: "",
-        address: "",
-        city: "",
-        source: "",
-        remark: "",
-      });
-      return swal({
-        title: "Success !",
-        icon: "success",
-        type: "success",
-        text: "You have successfully submit your form!",
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        await res.json();
+        setData({
+          ...data,
+          name: "",
+          address: "",
+          source: "",
+          remark: "",
+          lat: "",
+          lng: "",
+        });
+        return swal({
+          title: "Success !",
+          icon: "success",
+          type: "success",
+          text: "You have successfully submit your form!",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
   return (
     <div>
       <form
@@ -101,21 +109,6 @@ const AccountDashboard = () => {
               name="address"
               value={address}
               placeholder="Ex. 1121 Pedro Gil Street, Ermita"
-              id=""
-              autoComplete="off"
-              onChange={handleChangeInput}
-            />
-          </div>
-        </h2>
-
-        <h2 className="text-left items-center font-semibold">
-          City/Municipality/Province:
-          <div className="sm:w-4/5 grid self-center pt-4">
-            <input
-              type="text"
-              name="city"
-              value={city}
-              placeholder="Ex. Manila"
               id=""
               autoComplete="off"
               onChange={handleChangeInput}
@@ -168,3 +161,15 @@ const AccountDashboard = () => {
 };
 
 export default AccountDashboard;
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
