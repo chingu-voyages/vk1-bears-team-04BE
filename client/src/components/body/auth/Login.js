@@ -13,6 +13,8 @@ import { useDispatch } from "react-redux";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 
+import "../../../tailwind.css";
+
 const initialState = {
   email: "",
   password: "",
@@ -27,11 +29,11 @@ const Login = () => {
 
   const { email, password, err, success } = user;
 
-  const handleChangeInput = (e) => {
+  const handleChangeInput = e => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value, err: "", success: "" });
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     try {
       const res = await axios.post("/user/login", { email, password });
@@ -59,7 +61,7 @@ const Login = () => {
     }
   };
 
-  const responseGoogle = async (response) => {
+  const responseGoogle = async response => {
     try {
       const res = await axios.post("/user/google_login", {
         tokenId: response.tokenId,
@@ -76,7 +78,7 @@ const Login = () => {
     }
   };
 
-  const responseFacebook = async (response) => {
+  const responseFacebook = async response => {
     try {
       const { accessToken, userID } = response;
       const res = await axios.post("/user/facebook_login", {
@@ -140,6 +142,14 @@ const Login = () => {
               <div>
                 <GoogleLogin
                   clientId={process.env.REACT_APP_GOOGLE_ID}
+                  render={renderProps => (
+                    <button
+                      onClick={renderProps.onClick}
+                      className="btn bg-gray-200 subtle-shadow border-black w-full py-3 my-6 font-medium tracking-widest text-black "
+                    >
+                      Login with Google{" "}
+                    </button>
+                  )}
                   buttonText="Login with Google"
                   onSuccess={responseGoogle}
                   cookiePolicy={"single_host_origin"}
@@ -150,6 +160,8 @@ const Login = () => {
                 <FacebookLogin
                   appId={process.env.REACT_APP_FACEBOOK_ID}
                   autoLoad={false}
+                  cssClass="btnFacebook"
+                  textButton="&nbsp;&nbsp;Sign In with Facebook"
                   fields="name,email,picture"
                   callback={responseFacebook}
                 />
