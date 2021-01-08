@@ -1,4 +1,4 @@
-import React, {useState, useRef, useCallback } from "react";
+import React, {useState, useRef, useCallback, useEffect } from "react";
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from 'react-map-gl-geocoder';
@@ -34,6 +34,27 @@ const MapsContent = () => {
       },
     [handleViewportChange]
   );
+  
+  const [json, setjson] = useState();
+
+  useEffect(() => {
+        const fetchdata = async () => {
+          try {
+              const response = await fetch("https://v1.nocodeapi.com/urescueme/google_sheets/WUbvvWpfUvlOUcqU?tabId=Sheet1", {
+                  method: "get",
+                  headers: {
+                      "Content-Type": "application/json"
+                  }
+              });
+              const res = await response.json();
+              setjson(res)
+              console.log(res)
+          } catch (error) {
+              console.error("Error:", error);
+          }
+      }
+      fetchdata();
+  }, []);
 
   return (
     <>
@@ -49,6 +70,19 @@ const MapsContent = () => {
               onViewportChange={viewport => {
                   SetViewport(viewport);
               }}>
+                
+                
+                {json && json.data.map(data => (
+          <Marker
+            key={data.row_id}
+            latitude={parseFloat(data.Lat)}
+            longitude={parseFloat(data.Lng)}
+            offsetLeft={-10} offsetTop={-5}
+          >
+           <FaMapMarkerAlt className="text-2xl text-red-900"/> 
+          </Marker>
+        ))}
+              
 
               <Geocoder
                 mapRef={mapRef}
