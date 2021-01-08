@@ -4,9 +4,10 @@ import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
-const MapsContent = () => {
-  const [showPopup, setShowPopup] = useState(true);
+import "../../../tailwind.css";
 
+const MapsContent = () => {
+  const [showPopup, setShowPopup] = useState({});
   const [viewport, SetViewport] = useState({
     latitude: 14.5995,
     longitude: 120.9842,
@@ -15,23 +16,6 @@ const MapsContent = () => {
   });
 
   const mapRef = useRef();
-  const handleViewportChange = useCallback(
-    newViewport => SetViewport(newViewport),
-    []
-  );
-
-  // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
-  const handleGeocoderViewportChange = useCallback(
-    newViewport => {
-      const geocoderDefaultOverrides = { transitionDuration: 1000 };
-
-      return handleViewportChange({
-        ...newViewport,
-        ...geocoderDefaultOverrides,
-      });
-    },
-    [handleViewportChange]
-  );
 
   const [json, setjson] = useState();
 
@@ -55,73 +39,90 @@ const MapsContent = () => {
   }, []);
 
   return (
-    <>
-      <div className="py-4 h-screen col-span-3 overflow-auto">
-        <div className="h-screen p-4">
-          <ReactMapGL
-            ref={mapRef}
-            {...viewport}
-            width="100%"
-            height="100%"
-            mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-            mapStyle="mapbox://styles/urescueme/ckiox3t7j52o917qpxlgtsjou"
-            onViewportChange={viewport => {
-              SetViewport(viewport);
-            }}
-          >
-            {json &&
-              json.data.map(data => (
+    <div className="py-4 h-screen col-span-3 overflow-auto">
+      <div className="h-screen p-4">
+        <ReactMapGL
+          ref={mapRef}
+          {...viewport}
+          width="100%"
+          height="100%"
+          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+          mapStyle="mapbox://styles/urescueme/ckjoia2tu0w5219ry1cns1a7e"
+          onViewportChange={viewport => {
+            SetViewport(viewport);
+          }}
+        >
+          {json &&
+            json.data.map(data => (
+              <React.Fragment key={data.row_id}>
                 <Marker
-                  key={data.row_id}
                   latitude={parseFloat(data.Lat)}
                   longitude={parseFloat(data.Lng)}
                   offsetLeft={-10}
                   offsetTop={-5}
                 >
-                  <FaMapMarkerAlt className="text-2xl text-red-900" />
+                  <div
+                    onClick={() =>
+                      setShowPopup({
+                        [data.row_id]: true,
+                      })
+                    }
+                  >
+                    {/* <FaMapMarkerAlt
+                      className="text-2xl text-red-600 border-solid border-2 border-white "
+                    
+                    /> */}
+                    <svg
+                      fill="red"
+                      stroke="white"
+                      stroke-width="1"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg%22%3E<"
+                      style={{
+                        height: `${3 * viewport.zoom}px`,
+                        width: `${3 * viewport.zoom}px`,
+                      }}
+                    >
+                      <g>
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </g>
+                    </svg>
+                  </div>
                 </Marker>
-              ))}
 
-            <Geocoder
-              mapRef={mapRef}
-              onViewportChange={handleGeocoderViewportChange}
-              mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-              position="top-left"
-            />
-
-            <Marker
-              latitude={14.6908}
-              longitude={120.9631}
-              offsetLeft={-10}
-              offsetTop={-5}
-              onClick={e => {
-                e.prevenDefault();
-                setShowPopup(true);
-              }}
-            >
-              <FaMapMarkerAlt className="text-2xl text-red-900" />
-            </Marker>
-
-            {showPopup ? (
-              <Popup
-                latitude={14.6908}
-                longitude={120.9631}
-                closeButton={true}
-                closeOnClick={false}
-                dynamicPosition={true}
-                onClose={() => setShowPopup(false)}
-                anchor="bottom"
-              >
-                <div className="popup">
-                  <p>You are Here</p>
-                </div>
-              </Popup>
-            ) : null}
-            {/* <h2 className="text-left">This is the basic map</h2> */}
-          </ReactMapGL>
-        </div>
+                {showPopup[data.row_id] ? (
+                  <Popup
+                    latitude={parseFloat(data.Lat)}
+                    longitude={parseFloat(data.Lng)}
+                    closeButton={true}
+                    closeOnClick={false}
+                    dynamicPosition={true}
+                    className="z-10"
+                    onClose={() => setShowPopup(false)}
+                    anchor="top"
+                  >
+                    <div className="popup">
+                      <p>
+                        Name : <strong>{data.Names}</strong>
+                      </p>
+                      <p>
+                        Address : <strong>{data.Address}</strong>
+                      </p>
+                      <p>
+                        Remarks :<strong>{data.Remarks}</strong>{" "}
+                      </p>
+                    </div>
+                  </Popup>
+                ) : null}
+              </React.Fragment>
+            ))}
+        </ReactMapGL>
       </div>
-    </>
+    </div>
   );
 };
 
