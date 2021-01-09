@@ -164,17 +164,18 @@ const Register = () => {
           />
           <label className="pl-2" htmlFor="terms">
             I agree to U Rescue Me's{" "}
-            <a className="underline" href="/terms-of-services">
+            <Link to="/terms-of-services" className="underline">
               Terms of Services.
-            </a>
+            </Link>
           </label>
-          <button
+          <div className="flex justify-center"><button
             type="submit"
-            className="btn btn-primary subtle-shadow w-full py-3 my-6 font-medium tracking-widest text-white focus:outline-none hover:bg-gray-900 hover:shadow-none"
+            className="btn btn-primary subtle-shadow w-72 py-3 my-6 font-medium tracking-widest text-white focus:outline-none hover:bg-gray-900 hover:shadow-none"
           >
             {" "}
             Sign Up
           </button>
+          </div>
         </form>
       </div>
     </div>

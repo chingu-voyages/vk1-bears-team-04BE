@@ -14,12 +14,12 @@ const Footer = () => {
                 to="/"
                 className="flex flex-col justify-center items-center"
               >
-                <Logo className="w-1/4 sm:w-4 md:w-2/4" />
+                <Logo className="w-1/2 sm:w-4 sm:inline-block md:w-2/4 hidden" />
               </Link>
 
               <div className="w-full py-2 flex flex-col">
-                <span className="font-bold uppercase text-2xl text-white mb-2">
-                  U Rescue Me
+                <span className="font-bold uppercase text-2xl text-white mb-2 px-2">
+                   U Rescue Me
                 </span>
                 <span className="text-justify px-2">
                   A Crowdsourcing Web Application that supports many people who

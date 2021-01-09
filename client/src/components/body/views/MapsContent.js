@@ -11,7 +11,8 @@ const MapsContent = () => {
   const [viewport, SetViewport] = useState({
     latitude: 14.5995,
     longitude: 120.9842,
-
+    width: "100vw",
+    height: "100vh",
     zoom: 10,
   });
 
@@ -39,8 +40,8 @@ const MapsContent = () => {
   }, []);
 
   return (
-    <div className="py-4 h-screen col-span-3 overflow-auto">
-      <div className="h-screen p-4">
+    <div className="h-screen col-span-3 overflow-auto">
+      <div className="h-screen">
         <ReactMapGL
           ref={mapRef}
           {...viewport}
@@ -101,13 +102,13 @@ const MapsContent = () => {
                     closeButton={true}
                     closeOnClick={true}
                     dynamicPosition={true}
-                    className="z-10"
+                    className="z-10 shadow-2xl bg-red-500 rounded-lg"
                     onClose={() => setShowPopup(false)}
                     anchor="top"
                     offsetLeft={8}
                     offsetTop={30}
                   >
-                    <div className="popup">
+                    <div className="popup p-3">
                       <p>
                         Name : <strong>{data.Names}</strong>
                       </p>
@@ -115,7 +116,7 @@ const MapsContent = () => {
                         Address : <strong>{data.Address}</strong>
                       </p>
                       <p>
-                        Remarks :<strong>{data.Remarks}</strong>{" "}
+                        Remarks : <strong>{data.Remarks}</strong>{" "}
                       </p>
                     </div>
                   </Popup>

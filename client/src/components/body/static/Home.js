@@ -119,7 +119,7 @@ const Home = () => {
                   <img src={step2} alt="Step 2" />
                 </div>
                 <div className="btn-primary pt-1 mb-6"></div>
-                <h2 className="px-12 tracking-widest text-2xl title-font font-bold text-gray-900 mb-3">
+                <h2 className="sm:px-12 px-6 tracking-widest text-2xl title-font font-bold text-gray-900 mb-3">
                   Crowdsource Information
                 </h2>
                 <p className="px-12 leading-relaxed mb-3">
@@ -127,6 +127,7 @@ const Home = () => {
                 </p>
               </div>
             </div>
+
 
             <div className="py-4 px-16 lg:w-1/3">
               <div className="h-full bg-white subtle-shadow pb-24 rounded-lg overflow-hidden text-center relative">
@@ -143,6 +144,7 @@ const Home = () => {
                 </p>
               </div>
             </div>
+
           </div>
         </div>
       </section>

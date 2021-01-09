@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import swal from "sweetalert";
+import { FaFacebook } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { BiLogInCircle } from "react-icons/bi";
 import {
   showErrMsg,
   showSuccessMsg,
@@ -99,7 +102,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex flex-col my-32">
+      <div className="flex flex-col my-24">
         <div className="container bg-white max-w-2xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
           <div className="px-20 py-8 rounded-3xl subtle-shadow text-black w-full my-15 text-center">
             <form onSubmit={handleSubmit}>
@@ -126,11 +129,14 @@ const Login = () => {
 
               <button
                 type="submit"
-                className="btn btn-primary subtle-shadow w-full py-3 my-6 font-medium tracking-widest text-white focus:outline-none hover:bg-gray-900 hover:shadow-none"
+                className="btn btn-primary subtle-shadow w-72 py-3 my-3 font-medium tracking-widest text-white focus:outline-none hover:bg-gray-900 hover:shadow-none"
               >
-                Login
+                <div className="flex gap-2 justify-center">
+                    <BiLogInCircle className="text-2xl"/>
+                    <div>Login</div>
+                </div>               
               </button>
-              <p className="text-left">
+              <p className="text-center">
                 <Link to="forgot_password" className="font-medium underline">
                   Forgot your Password?
                 </Link>
@@ -145,9 +151,13 @@ const Login = () => {
                   render={renderProps => (
                     <button
                       onClick={renderProps.onClick}
-                      className="btn bg-gray-200 subtle-shadow border-black w-full py-3 my-6 font-medium tracking-widest text-black "
+                      className="btn bg-gray-200 subtle-shadow border-black w-72 py-2 my-2 font-medium tracking-widest text-black"
                     >
-                      Login with Google{" "}
+                      <div className="flex gap-2 justify-center">
+                        <FcGoogle className="text-2xl"/>
+                        <div>Login with Google{" "}</div>
+                      </div>
+                      
                     </button>
                   )}
                   buttonText="Login with Google"
@@ -156,15 +166,19 @@ const Login = () => {
                 />
               </div>
 
-              <div>
-                <FacebookLogin
-                  appId={process.env.REACT_APP_FACEBOOK_ID}
-                  autoLoad={false}
-                  cssClass="btnFacebook"
-                  textButton="&nbsp;&nbsp;Sign In with Facebook"
-                  fields="name,email,picture"
-                  callback={responseFacebook}
-                />
+              <div className="flex justify-center">
+                <div className="btn bg-blue-700 subtle-shadow border-black w-72 py-2 my-2 font-medium tracking-widest text-black flex justify-center">
+                  <div><FaFacebook className="text-2xl text-white absolute ml-8"/></div>
+                  <FacebookLogin
+                    appId={process.env.REACT_APP_FACEBOOK_ID}
+                    autoLoad={false}
+                    cssClass="btnFacebook"
+                    textButton="&nbsp;&nbsp;Sign In with Facebook"
+                    fields="name,email,picture"
+                    callback={responseFacebook}
+                  />
+                  {/* <FaFacebook /> */}
+                </div>
               </div>
 
               {/* <button className="btn w-full subtle-shadow text-white bg-blue-900">
