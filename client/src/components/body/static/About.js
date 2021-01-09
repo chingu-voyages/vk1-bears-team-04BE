@@ -33,7 +33,7 @@ const About = () => {
               Become a life saver to anyone, you can now become a hero without
               putting that much effort.
             </p>
-            <div className="justify-center flex">
+            {/* <div className="justify-center flex">
               <Link
                 to="/register"
                 className="btn btn-primary w-40 mt-3 text-white inline-flex  justify-center items-center gap-2 transition duration-200 ease-in-out transform hover:-translate-y-1 hover:scale-110"
@@ -41,7 +41,7 @@ const About = () => {
                 Sign Up Now
                 <HiArrowRight />
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </Content>

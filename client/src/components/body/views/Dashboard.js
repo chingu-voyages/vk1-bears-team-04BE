@@ -10,7 +10,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="grid sm:grid-cols-12 grid-cols-1 overflow-auto overscroll-contain">
-        <div className="col-span-2 sticky top-0 z-50">
+        <div className="col-span-2 sticky top-0 z-0">
           {/* sidebar menu */}
           <div className="sm:h-screen h-full text-center bg-gray-900 sm:pb-96 pb-0 flex flex-row sm:flex-col justify-around sm:justify-start">
             <Link

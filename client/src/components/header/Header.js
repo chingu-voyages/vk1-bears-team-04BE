@@ -119,7 +119,7 @@ const Header = ({ users }) => {
                   className="menu focus:outline-none focus:shadow-solid   inline-flex justify-center items-end rounded-md  text-base font-medium text-white"
                   onClick={() => setShow(!show)}
                 >
-                  Hello {user.firstName} <HiChevronDown />
+                  Hello, {user.firstName}! <HiChevronDown />
                 </button>
 
                 <Transition
@@ -131,7 +131,7 @@ const Header = ({ users }) => {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <div className="origin-top-right absolute  z-10 right-0 w-36 py-2 mt-1 nav-bg rounded shadow-md ">
+                  <div className="origin-top-right absolute  z-10 right-0 w-36 py-2 mt-1  bg-yellow-600 rounded shadow-md ">
                     <Link
                       to="/dashboard"
                       className="px-3 rounded-md  text-base font-medium text-white"

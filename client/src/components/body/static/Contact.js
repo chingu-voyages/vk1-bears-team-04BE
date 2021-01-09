@@ -40,7 +40,7 @@ const Contact = () => {
         <div className="flex-col md:flex-row flex gap-5 px-10 pt-10 pb-14 justify-center">
           <div className="border-2 border-yellow-300 rounded-3xl p-5 md:w-96">
             <div className="flex justify-center pb-3">
-              <BiMap className="text-5xl text-red-600" />
+              <BiMap className="text-5xl text-red-800" />
             </div>
             <p className="text-center">
               Currently located at
@@ -56,7 +56,7 @@ const Contact = () => {
 
           <div className="border-2 border-yellow-300 rounded-3xl p-5 md:w-96">
             <div className="flex justify-center pb-3">
-              <AiOutlineMail className="text-5xl text-red-600" />
+              <AiOutlineMail className="text-5xl text-red-800" />
             </div>
             <p className="text-center">
               You can reach us by sending us email at{" "}
@@ -72,7 +72,7 @@ const Contact = () => {
 
           <div className="border-2 border-yellow-300 rounded-3xl p-5 md:w-96">
             <div className="flex justify-center pb-3">
-              <BiPhoneCall className="text-5xl text-red-600" />
+              <BiPhoneCall className="text-5xl text-red-800" />
             </div>
             <p className="text-center">
               You can now call us at{" "}

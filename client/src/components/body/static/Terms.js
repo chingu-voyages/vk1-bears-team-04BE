@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Terms = () => {
   return (
     <>
-    <div className="text-left">
+    <div className="text-left shadow-2xl mx-10 my-5 rounded-3xl">
       <h1 className= "text-center font-medium text-4xl pt-10">Terms of Services</h1>
       <div className="py-10 px-14">
         <h2 className=" pb-5 font-medium text-2xl">1. Terms</h2>

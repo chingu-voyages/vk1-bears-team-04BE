@@ -29,25 +29,25 @@ textarea {
 }
 
 .btnFacebook { 
-  width: 100%;
-  background: #3b5998;
+  width: 18rem;
+  /* background: #3b5998; */
+  background: transparent;
   color:white;
-  box-shadow: 0px 0px 50px 10px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0px 0px 50px 10px rgba(0, 0, 0, 0.05); */
   text-align: center;
-  margin:5px;
+  /* margin:5px; */
   display: inline-block;
-  padding-top: 0.75rem;
-  padding-bottom:0.75rem;
-    border-radius: 9999px;
-    font-weight: 500;
+  /* padding-top: 0.75rem;
+  padding-bottom:0.75rem; */
+  /* border-radius: 9999px; */
+  font-weight: 500;
+  margin:0px;
+  padding:0px;
     
-
-
 }
 
 .popup {
-  width: 10vw;
- font-size:12px;
-
+  width: 20vw;
+  font-size:14px;
  z-index: 9999;
 }
